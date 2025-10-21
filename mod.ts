@@ -22,26 +22,20 @@ const Star =
     ({ type: "Star", arg }) as const
 
 const nu =
-(expr: Expr): Expr => {
+(expr: Expr): boolean => {
     switch (expr.type) {
         case "Empty":
-            return Empty
+            return false
         case "Epsilon":
-            return Epsilon
+            return true
         case "Char":
-            return Empty
+            return false
         case "Or":
-            return Or(
-                nu(expr.left),
-                nu(expr.right),
-            )
+            return nu(expr.left) || nu(expr.right)
         case "Concat":
-            return Concat(
-                nu(expr.left),
-                nu(expr.right),
-            )
+            return nu(expr.left) && nu(expr.right)
         case "Star":
-            return Epsilon
+            return true
     }
 }
 
@@ -72,7 +66,9 @@ const deriv =
                     expr.right,
                 ),
                 Concat(
-                    nu(expr.left),
+                    nu(expr.left)
+                        ? Epsilon
+                        : Empty,
                     deriv(a)(expr.right),
                 ),
             )
