@@ -1,4 +1,5 @@
 import { brzo } from "./src/brzo.ts"
+import { anti } from "./src/anti.ts"
 import {
     stringify,
     Or,
@@ -18,5 +19,17 @@ console.log(
                 Char("c"),
             )
         ))    
-    )
+    ),
+)
+console.log(
+    anti("a")(Or(
+        Concat(
+            Char("a"),
+            Char("b"),
+        ),
+        Concat(
+            Char("a"),
+            Char("c"),
+        )
+    )).values().map(stringify).toArray().join("|")
 )
