@@ -46,8 +46,11 @@ const nu =
 }
 
 const deriv =
-(a: string) =>
+(...[a, ...as]: string[]) =>
 (expr: Expr): Expr => {
+    if (as.length > 1) {
+        return deriv(...as)(deriv(a)(expr))
+    }
     switch (expr.type) {
         case "Empty":
             return Empty
@@ -82,7 +85,7 @@ const deriv =
 }
 
 console.log(
-    deriv("a")(Concat(
+    deriv("a", "c")(Concat(
         Or(
             Char("a"),
             Char("b"),
