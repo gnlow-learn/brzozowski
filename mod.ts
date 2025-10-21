@@ -84,14 +84,40 @@ const deriv =
     }
 }
 
+const stringify =
+(expr: Expr): string => {
+    switch (expr.type) {
+        case "Empty":
+            return "∅"
+        case "Epsilon":
+            return "ε"
+        case "Char":
+            return expr.char
+        case "Or":
+            return `(${
+                stringify(expr.left)
+            }|${
+                stringify(expr.left)
+            })`
+        case "Concat":
+            return `(${
+                stringify(expr.left)
+            }${
+                stringify(expr.left)
+            })`
+        case "Star":
+            return stringify(expr.arg) + "*"
+    }
+}
+
 console.log(
-    deriv("a", "c")(Concat(
-        Or(
-            Char("a"),
-            Char("b"),
-        ),
-        Star(
+    stringify(
+        deriv("a")(Concat(
+            Or(
+                Char("a"),
+                Char("b"),
+            ),
             Char("c"),
-        ),
-    ))
+        ))    
+    )
 )
