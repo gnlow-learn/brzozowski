@@ -93,13 +93,13 @@ const stringify =
             return `(${
                 stringify(expr.left)
             }|${
-                stringify(expr.left)
+                stringify(expr.right)
             })`
         case "Concat":
             return `(${
                 stringify(expr.left)
             }${
-                stringify(expr.left)
+                stringify(expr.right)
             })`
         case "Star":
             return stringify(expr.arg) + "*"
