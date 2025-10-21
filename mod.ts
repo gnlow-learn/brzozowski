@@ -114,12 +114,15 @@ const stringify =
 
 console.log(
     stringify(
-        deriv("a")(Concat(
-            Or(
+        deriv("a")(Or(
+            Concat(
                 Char("a"),
                 Char("b"),
             ),
-            Char("c"),
+            Concat(
+                Char("a"),
+                Char("c"),
+            )
         ))    
     )
 )
