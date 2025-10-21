@@ -13,9 +13,15 @@ const Char =
     ({ type: "Char", char }) as const
 const Or =
 (left: Expr, right: Expr) =>
+    left.type == "Empty" ? right :
+    right.type == "Empty" ? left :
     ({ type: "Or", left, right }) as const
 const Concat =
 (left: Expr, right: Expr) =>
+    left.type == "Empty" ? Empty :
+    right.type == "Empty" ? Empty :
+    left.type == "Epsilon" ? right :
+    right.type == "Epsilon" ? left :
     ({ type: "Concat", left, right }) as const
 const Star =
 (arg: Expr) =>
